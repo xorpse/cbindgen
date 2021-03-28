@@ -501,7 +501,8 @@ impl Item for Enum {
 
         if config.language != Language::Cxx && self.tag.is_some() {
             // it makes sense to always prefix Tag with type name in C
-            let new_tag = format!("{}_Tag", self.export_name);
+            let mut new_tag = format!("{}_Tag", self.export_name);
+            config.export.rename(&mut new_tag);
             if self.repr.style == ReprStyle::Rust {
                 for variant in &mut self.variants {
                     if let VariantBody::Body { ref mut body, .. } = variant.body {
